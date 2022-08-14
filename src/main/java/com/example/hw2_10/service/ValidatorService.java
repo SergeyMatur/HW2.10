@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 class ValidatorService {
     public String validateName(String name) {
         if (!StringUtils.isAlpha(name)) {
-            throw new IncorrectNameException();
+            try {
+                throw new IncorrectNameException();
+            } catch (IncorrectNameException e) {
+                throw new RuntimeException(e);
+            }
         }
         return StringUtils.capitalize(name.toLowerCase());
     }
@@ -18,7 +22,11 @@ class ValidatorService {
         String[] surnames = surname.split("-");
         for (int i = 0; i < surnames.length; i++) {
             if (!StringUtils.isAlpha(surnames[i])) {
-                throw new IncorrectSurnameException();
+                try {
+                    throw new IncorrectSurnameException();
+                } catch (IncorrectSurnameException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         return String.join("-", surnames);
